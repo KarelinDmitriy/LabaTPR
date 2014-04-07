@@ -14,6 +14,12 @@ namespace SimplexModel
         #endregion
 
         #region public methods
+        public Factor()
+        {
+            _n = 0;
+            _d= 1;
+        }
+
         public Factor(int n, int d)
         {
             _n = n;
@@ -59,6 +65,70 @@ namespace SimplexModel
             a.cut();
             b.cut();
             return ret;
+        }
+
+        public static bool operator >(Factor a, Factor b)
+        {
+            a._d *= b._n;
+            b._d *= a._n;
+            a._n = b._n *= a._n;
+            bool ret;
+            if (a._d > b._d) ret = true;
+            else ret = false;
+            a.cut();
+            b.cut();
+            return ret;
+        }
+
+        public static bool operator ==(Factor a, Factor b)
+        {
+            a._d *= b._n;
+            b._d *= a._n;
+            a._n = b._n *= a._n;
+            bool ret;
+            if (a._d == b._d) ret = true;
+            else ret = false;
+            a.cut();
+            b.cut();
+            return ret;
+        }
+
+        public static bool operator !=(Factor a, Factor b)
+        {
+            return !(a == b);
+        }
+
+        public static bool operator >=(Factor a, Factor b)
+        {
+            return !(a < b);
+        }
+
+        public static bool operator <=(Factor a, Factor b)
+        {
+            return !(a > b);
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0}/{1}", _n, _d);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Factor)
+            {
+                Factor a = obj as Factor;
+                if (a._d == _d && a._n == _n)
+                    return true;
+                else return false;
+            }
+            else return false;
+        }
+
+        public override int GetHashCode()
+        {
+            //Warning, Danger!!!!!!!!!!!!!!!!!!!!!!!!!
+            return _n.GetHashCode() + _d.GetHashCode();
         }
         #endregion
 

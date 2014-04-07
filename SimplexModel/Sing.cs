@@ -6,18 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimplexModel
 {
-    class Limit
+    class Sing
     {
-#region variable
-        
-#endregion 
-
-#region public methods
-
-#endregion
-
-#region private methods
-
-#endregion
     }
 }
