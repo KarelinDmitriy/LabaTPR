@@ -6,7 +6,5 @@ using System.Threading.Tasks;
 
 namespace SimplexModel
 {
-    class Target
-    {
-    }
+    enum Target { minimization, maximization };
 }

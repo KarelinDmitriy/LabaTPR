@@ -103,7 +103,7 @@ namespace SimplexModel
             return !(a < b);
         }
 
-        public static bool operator <=(Fraction a, Fraction b)
+        public static bool operator <=(Fraction  a, Fraction b)
         {
             return !(a > b);
         }
