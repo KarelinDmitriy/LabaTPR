@@ -6,7 +6,5 @@ using System.Threading.Tasks;
 
 namespace SimplexModel
 {
-    class Sing
-    {
-    }
+    enum Sing {unknown, lessEquality, equality, moreEquality };
 }
