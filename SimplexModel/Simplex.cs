@@ -11,14 +11,41 @@ namespace SimplexModel
 #region variable
         Matrix _matrix;
         List<Limit> _limits;
+        MathFunction _function;
+        List<Fraction> _basis;
 #endregion 
 
 #region public methods
         public Simplex()
         {
             _limits = new List<Limit>();
+            _basis = new List<Fraction>();
+        }
+
+        public Simplex(MathFunction math)
+            :this()
+        {
+            _function = math;
+        }
+
+        public void AddLimit(Limit l)
+        {
+            _limits.Add(l);
         }
         
+        public void Solve()
+        {
+            foreach (var x in _limits)
+            {
+                if (x.LeftSide<0)
+                {
+                    x.invertSing();
+                }
+            }
+            if (_function.TargetFunction == Target.minimization)
+                _function.ChangeTarget();
+
+        }
 #endregion
 
 #region private methods

@@ -62,6 +62,14 @@ namespace SimplexModel
                 return _vars[i];
             }
         }
+
+        public Fraction LeftSide
+        {
+            get
+            {
+                return _leftSide;
+            }
+        }
 #endregion
 
 #region private methods

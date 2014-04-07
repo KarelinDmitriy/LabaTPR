@@ -108,6 +108,11 @@ namespace SimplexModel
             return !(a > b);
         }
 
+        public static implicit operator Fraction(int value)
+        {
+            return new Fraction(value, 1);
+        }
+
         public override string ToString()
         {
             if (_d == 1) return String.Format(_n.ToString());

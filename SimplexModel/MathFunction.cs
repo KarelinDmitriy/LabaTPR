@@ -59,6 +59,14 @@ namespace SimplexModel
                 return _factors[i];
             }
         }
+
+        public int Length
+        {
+            get
+            {
+                return _factors.Count;
+            }
+        }
     }
 #endregion
 
