@@ -10,18 +10,18 @@ namespace SimplexModel
     {
 #region variable
         int _n, _m;
-        Factor[,] _matrix;
+        Fraction[,] _matrix;
 #endregion 
 
 #region public methods
         public Matrix(int n, int m)
         {
-            _matrix = new Factor[n, m];
+            _matrix = new Fraction[n, m];
             _n = n;
             _m = m;
         }
 
-        public Factor this[int i, int j]
+        public Fraction this[int i, int j]
         {
             get
             {

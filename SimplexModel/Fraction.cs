@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimplexModel
 {
-    class Factor
+    class Fraction
     {
         #region variable
         int _n;
@@ -14,13 +14,13 @@ namespace SimplexModel
         #endregion
 
         #region public methods
-        public Factor()
+        public Fraction()
         {
             _n = 0;
             _d= 1;
         }
 
-        public Factor(int n, int d)
+        public Fraction(int n, int d)
         {
             _n = n;
             if (d == 0)
@@ -29,32 +29,32 @@ namespace SimplexModel
             cut();
         }
 
-        public static Factor operator +(Factor a, Factor b)
+        public static Fraction operator +(Fraction a, Fraction b)
         {
-            return new Factor(a._d * b._n + b._d * a._n, a._n * b._n);
+            return new Fraction(a._d * b._n + b._d * a._n, a._n * b._n);
         }
 
-        public static Factor operator -(Factor a, Factor b)
+        public static Fraction operator -(Fraction a, Fraction b)
         {
-            return new Factor(a._d * b._n - b._d * a._n, a._n * b._n);
+            return new Fraction(a._d * b._n - b._d * a._n, a._n * b._n);
         }
 
-        public static Factor operator *(Factor a, Factor b)
+        public static Fraction operator *(Fraction a, Fraction b)
         {
-            return new Factor(a._d * b._d, a._n * b._n);
+            return new Fraction(a._d * b._d, a._n * b._n);
         }
 
-        public static Factor operator /(Factor a, Factor b)
+        public static Fraction operator /(Fraction a, Fraction b)
         {
-            return new Factor(a._d * b._n, a._n * b._d);
+            return new Fraction(a._d * b._n, a._n * b._d);
         }
 
-        public static Factor operator -(Factor a)
+        public static Fraction operator -(Fraction a)
         {
-            return new Factor(-a._d, a._n);
+            return new Fraction(-a._d, a._n);
         }
 
-        public static bool operator <(Factor a, Factor b)
+        public static bool operator <(Fraction a, Fraction b)
         {
             a._d *= b._n;
             b._d *= a._n;
@@ -67,7 +67,7 @@ namespace SimplexModel
             return ret;
         }
 
-        public static bool operator >(Factor a, Factor b)
+        public static bool operator >(Fraction a, Fraction b)
         {
             a._d *= b._n;
             b._d *= a._n;
@@ -80,7 +80,7 @@ namespace SimplexModel
             return ret;
         }
 
-        public static bool operator ==(Factor a, Factor b)
+        public static bool operator ==(Fraction a, Fraction b)
         {
             a._d *= b._n;
             b._d *= a._n;
@@ -93,17 +93,17 @@ namespace SimplexModel
             return ret;
         }
 
-        public static bool operator !=(Factor a, Factor b)
+        public static bool operator !=(Fraction a, Fraction b)
         {
             return !(a == b);
         }
 
-        public static bool operator >=(Factor a, Factor b)
+        public static bool operator >=(Fraction a, Fraction b)
         {
             return !(a < b);
         }
 
-        public static bool operator <=(Factor a, Factor b)
+        public static bool operator <=(Fraction a, Fraction b)
         {
             return !(a > b);
         }
@@ -116,9 +116,9 @@ namespace SimplexModel
 
         public override bool Equals(object obj)
         {
-            if (obj is Factor)
+            if (obj is Fraction)
             {
-                Factor a = obj as Factor;
+                Fraction a = obj as Fraction;
                 if (a._d == _d && a._n == _n)
                     return true;
                 else return false;

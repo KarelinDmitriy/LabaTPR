@@ -9,22 +9,27 @@ namespace SimplexModel
     class Limit
     {
 #region variable
-        List<Factor> _vars;
+        List<Fraction> _vars;
         Sing _sing;
-        Factor _leftSide;
+        Fraction _leftSide;
 #endregion 
 
 #region public methods
         public Limit()
         {
-            _vars = new List<Factor>();
+            _vars = new List<Fraction>();
             _sing = Sing.unknown;
-            _leftSide = new Factor();
+            _leftSide = new Fraction();
         }
 
-        public void addVar(Factor a)
+        public void addVar(Fraction a, int number)
         {
-            _vars.Add(a);
+            if (number>=_vars.Count)
+            {
+                while (number >= _vars.Count)
+                    _vars.Add(new Fraction());
+            }
+            _vars[number] += a;
         }
 
         public void setSing(Sing a)
@@ -32,7 +37,7 @@ namespace SimplexModel
             _sing = a;
         }
 
-        public void setLeftSide(Factor a)
+        public void setLeftSide(Fraction a)
         {
             _leftSide = a;
         }
@@ -48,6 +53,14 @@ namespace SimplexModel
             else if (_sing == Sing.moreEquality)
                 _sing = Sing.lessEquality;
             _leftSide = -_leftSide;
+        }
+
+        public Fraction this[int i]
+        {
+            get
+            {
+                return _vars[i];
+            }
         }
 #endregion
 
