@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimplexModel
 {
-    class Fraction
+    public class Fraction
     {
         #region variable
         long  _n;
@@ -31,22 +31,22 @@ namespace SimplexModel
 
         public static Fraction operator +(Fraction a, Fraction b)
         {
-            return new Fraction(a._d * b._n + b._d * a._n, a._n * b._n);
+            return new Fraction(a._d * b._n + b._d * a._n, a._d* b._d);
         }
 
         public static Fraction operator -(Fraction a, Fraction b)
         {
-            return new Fraction(a._d * b._n - b._d * a._n, a._n * b._n);
+            return new Fraction(a._n * b._d - b._n * a._d, a._d * b._d);
         }
 
         public static Fraction operator *(Fraction a, Fraction b)
         {
-            return new Fraction(a._d * b._d, a._n * b._n);
+            return new Fraction(a._n * b._n, a._d * b._d);
         }
 
         public static Fraction operator /(Fraction a, Fraction b)
         {
-            return new Fraction(a._d * b._n, a._n * b._d);
+            return new Fraction(a._n * b._d, a._d * b._n);
         }
 
         public static Fraction operator -(Fraction a)
@@ -56,11 +56,11 @@ namespace SimplexModel
 
         public static bool operator <(Fraction a, Fraction b)
         {
-            a._d *= b._n;
-            b._d *= a._n;
-            a._n = b._n *= a._n;
+            a._n *= b._d;
+            b._n *= a._d;
+            a._d = b._d *= a._d;
             bool ret;
-            if (a._d < b._d) ret = true;
+            if (a._n < b._n) ret = true;
             else ret = false;
             a.cut();
             b.cut();
@@ -69,11 +69,11 @@ namespace SimplexModel
 
         public static bool operator >(Fraction a, Fraction b)
         {
-            a._d *= b._n;
-            b._d *= a._n;
-            a._n = b._n *= a._n;
+            a._n *= b._d;
+            b._n *= a._d;
+            a._d = b._d *= a._d;
             bool ret;
-            if (a._d > b._d) ret = true;
+            if (a._n > b._n) ret = true;
             else ret = false;
             a.cut();
             b.cut();
@@ -82,11 +82,11 @@ namespace SimplexModel
 
         public static bool operator ==(Fraction a, Fraction b)
         {
-            a._d *= b._n;
-            b._d *= a._n;
-            a._n = b._n *= a._n;
+            a._n *= b._d;
+            b._n *= a._d;
+            a._d = b._d *= a._d;
             bool ret;
-            if (a._d == b._d) ret = true;
+            if (a._n == b._n) ret = true;
             else ret = false;
             a.cut();
             b.cut();
@@ -146,6 +146,12 @@ namespace SimplexModel
         void cut()
         {
             long a = gcd(Math.Abs(_n), Math.Abs(_d));
+            if (a == 0)
+            {
+                _n = 0;
+                _d = 1;
+                return;
+            }
             _n /= a;
             _d /= a;
             if (_d < 0)

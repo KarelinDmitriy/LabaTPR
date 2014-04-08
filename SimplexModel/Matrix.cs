@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimplexModel
 {
-    class Matrix
+    public class Matrix
     {
 #region variable
         int _n, _m;
@@ -19,6 +19,9 @@ namespace SimplexModel
             _matrix = new Fraction[n, m];
             _n = n;
             _m = m;
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < m; j++)
+                    _matrix[i, j] = 0;
         }
 
         public Fraction this[int i, int j]
@@ -39,7 +42,7 @@ namespace SimplexModel
         }
         public int M
         {
-            return {return _m;}
+            get {return _m;}
         }
 #endregion
 

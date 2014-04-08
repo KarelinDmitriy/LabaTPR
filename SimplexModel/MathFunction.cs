@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimplexModel
 {
-    class MathFunction
+    public class MathFunction
     {
 #region variable
         List<Fraction> _factors;
@@ -20,7 +20,11 @@ namespace SimplexModel
             _factors = new List<Fraction>();
         }
 
-        public void  AddNewVariable(Fraction factor, int number)
+        public void AddNewVariable(Fraction factor)
+        {
+            _factors.Add(factor);
+        }
+        public void AddNewVariable(Fraction factor, int number)
         {
             if (number >= _factors.Count)
             {

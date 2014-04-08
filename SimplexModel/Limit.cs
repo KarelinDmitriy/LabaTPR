@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimplexModel
 {
-    class Limit
+    public class Limit
     {
 #region variable
         List<Fraction> _vars;
@@ -81,7 +81,7 @@ namespace SimplexModel
 
         public int LastVar()
         {
-            for (int i = _vars.Count - 1; i >= 0; i++)
+            for (int i = _vars.Count - 1; i >= 0; i--)
                 if (_vars[i] != 0) return i;
             return -1;
         }
