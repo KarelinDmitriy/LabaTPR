@@ -70,6 +70,21 @@ namespace SimplexModel
                 return _leftSide;
             }
         }
+
+        public Sing Sing
+        {
+            get
+            {
+                return _sing;
+            }
+        }
+
+        public int LastVar()
+        {
+            for (int i = _vars.Count - 1; i >= 0; i++)
+                if (_vars[i] != 0) return i;
+            return -1;
+        }
 #endregion
 
 #region private methods

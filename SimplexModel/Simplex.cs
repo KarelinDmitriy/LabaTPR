@@ -35,6 +35,10 @@ namespace SimplexModel
         
         public void Solve()
         {
+            //Переходим к задаче максимизации
+            if (_function.TargetFunction == Target.minimization)
+                _function.ChangeTarget();
+            //Делаем вектор (B) не отрицательным
             foreach (var x in _limits)
             {
                 if (x.LeftSide<0)
@@ -42,9 +46,8 @@ namespace SimplexModel
                     x.invertSing();
                 }
             }
-            if (_function.TargetFunction == Target.minimization)
-                _function.ChangeTarget();
-
+            
+            
         }
 #endregion
 

@@ -9,8 +9,8 @@ namespace SimplexModel
     class Fraction
     {
         #region variable
-        int _n;
-        int _d;
+        long  _n;
+        long  _d;
         #endregion
 
         #region public methods
@@ -20,7 +20,7 @@ namespace SimplexModel
             _d= 1;
         }
 
-        public Fraction(int n, int d)
+        public Fraction(long  n, long  d)
         {
             _n = n;
             if (d == 0)
@@ -112,7 +112,11 @@ namespace SimplexModel
         {
             return new Fraction(value, 1);
         }
-
+        
+        public static implicit operator Fraction(long value)
+        {
+            return new Fraction(value, 1L);
+        }
         public override string ToString()
         {
             if (_d == 1) return String.Format(_n.ToString());
@@ -141,7 +145,7 @@ namespace SimplexModel
         #region private methods
         void cut()
         {
-            int a = gcd(Math.Abs(_n), Math.Abs(_d));
+            long a = gcd(Math.Abs(_n), Math.Abs(_d));
             _n /= a;
             _d /= a;
             if (_d < 0)
@@ -151,7 +155,7 @@ namespace SimplexModel
             }
         }
 
-        int gcd(int a, int b)
+        long  gcd(long  a, long b)
         {
             return (b != 0) ? gcd(b, a % b) : a;
         }

@@ -32,6 +32,15 @@ namespace SimplexModel
                 _matrix[i, j] = value;
             }
         }
+
+        public int N
+        {
+            get { return _n; }
+        }
+        public int M
+        {
+            return {return _m;}
+        }
 #endregion
 
 #region private methods
