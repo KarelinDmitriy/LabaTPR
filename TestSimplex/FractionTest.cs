@@ -18,6 +18,10 @@ namespace TestSimplex
             Fraction b = 0;
             Fraction c = a + b;
             Assert.AreEqual(c, 6);
+            a = new Fraction(1, 2);
+            b = new Fraction(1, 2);
+            c = a + b;
+            Assert.AreEqual(c, 1);
         }
         [TestMethod]
         public void SubMethod()
@@ -26,6 +30,10 @@ namespace TestSimplex
             Fraction b = 0;
             Fraction c = a - b;
             Assert.AreEqual(c, 6);
+            a = new Fraction(3, 2);
+            b = new Fraction(1, 1);
+            c = a - b;
+            Assert.AreEqual(c, new Fraction(1, 2));
         }
         [TestMethod]
         public void MultTest()
@@ -34,6 +42,10 @@ namespace TestSimplex
             Fraction b = 1;
             Fraction c = a * b;
             Assert.AreEqual(c, 6);
+            a = new Fraction(1, 2);
+            b = new Fraction(1, 2);
+            c = a * b;
+            Assert.AreEqual(c, new Fraction(1, 4));
         }
         [TestMethod]
         public void DivTest()
@@ -42,6 +54,10 @@ namespace TestSimplex
             Fraction b = 1;
             Fraction c = a / b;
             Assert.AreEqual(c, 6);
+            a = new Fraction(1, 2);
+            b = new Fraction(1, 2);
+            c = a / b;
+            Assert.AreEqual(c, 1);
         }
         [TestMethod]
         public void NotEqul()
@@ -49,6 +65,17 @@ namespace TestSimplex
             Fraction a = 1;
             Assert.AreEqual(a != 0, true);
             Assert.AreEqual(a, 1);
+        }
+
+        [TestMethod]
+        public void LMEq()
+        {
+            Fraction a = new Fraction(1, 2);
+            Fraction b = new Fraction(2, 1);
+            Assert.AreEqual(a > b, false);
+            Assert.AreEqual(a < b, true);
+            Assert.AreEqual(a >= b, false);
+            Assert.AreEqual(a <= b, true);
         }
     }
 }

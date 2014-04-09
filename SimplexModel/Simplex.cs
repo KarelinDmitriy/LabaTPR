@@ -159,6 +159,7 @@ namespace SimplexModel
 
         private void newSimplexTable(int idx_i, int idx_j)
         {
+            Matrix mat = new Matrix(_matrix.N, _matrix.M);
             //заменяем старый базис на новый
             _basis[idx_i] = idx_j;
             //пересчитываем остальные элементы
@@ -167,13 +168,14 @@ namespace SimplexModel
                 if (i == idx_i) continue;
                 for (int j=0; j<_function.Length; j++)
                 {
-                    _matrix[i, j] -= _matrix[idx_i, j] * _matrix[i, idx_j] / _matrix[idx_i, idx_j];
+                    mat[i,j] = _matrix[i, j] - _matrix[idx_i, j] * _matrix[i, idx_j] / _matrix[idx_i, idx_j];
                 }
             }
             Fraction f = _matrix[idx_i, idx_j] + 0;
             //пересчитываем коефициенты направляющей строки
             for (int j = 0; j < _function.Length; j++)
-                _matrix[idx_i, j] /= f;
+                mat[idx_i,j] =  _matrix[idx_i, j] / f;
+            _matrix = mat;
             CalculateSimplexSub();
         }
 
