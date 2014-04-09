@@ -74,14 +74,15 @@ namespace SimplexModel
             }
             //Теперь переходим к шагу 1 и формируем 
             //Первую симплексную таблицу
-            return Step1();
+            Step1();
+            return step2();
         }
 
        
 #endregion
 
 #region private methods
-        private Fraction Step1()
+        private void Step1()
         {
             //определим размер таблицы.
             int n = _limits.Count+1;
@@ -112,7 +113,6 @@ namespace SimplexModel
                     _matrix[i, 0] * _function[_basis[i]];
             }
             //Посчитали вроде
-            return step2();
         }
 
         private Fraction step2()
