@@ -51,7 +51,7 @@ namespace SimplexModel
 
         public static Fraction operator -(Fraction a)
         {
-            return new Fraction(-a._d, a._n);
+            return new Fraction(-a._n, a._d);
         }
 
         public static bool operator <(Fraction a, Fraction b)

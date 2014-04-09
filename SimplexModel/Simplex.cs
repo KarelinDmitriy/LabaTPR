@@ -11,7 +11,7 @@ namespace SimplexModel
     public class Simplex
     {
 #region variable
-        const long MAX = -int.MaxValue*1L;
+        const long MAX = -int.MaxValue*2L;
 
         Matrix _matrix;
         List<Limit> _limits;
@@ -86,7 +86,7 @@ namespace SimplexModel
         {
             //определим размер таблицы.
             int n = _limits.Count+1;
-            int m =  _function.Length +2;
+            int m =  _function.Length;
             _matrix = new Matrix(n, m);
             //Заполняем первую симплесную таблицу
             //нужно выбрать базис 
@@ -99,25 +99,98 @@ namespace SimplexModel
                 _matrix[i, 0] = _limits[i].LeftSide;
             }
             //Заполнили таблицу, теперь нужно искать симплекс-разности
-            for (int j=1; j<_matrix.M-2; j++)
+            CalculateSimplexSub();
+            //Посчитали вроде
+        }
+
+        private void CalculateSimplexSub()
+        {
+            for (int j = 1; j < _matrix.M; j++)
             {
                 Fraction sum = 0;
-                for (int i = 0; i < _matrix.N - 1; i++)
+                for (int i = 0; i < _limits.Count; i++)
                     sum += _matrix[i, j] * _function[_basis[i]];
-             
+
                 _matrix[_matrix.N - 1, j] = sum - _function[j];
             }
-            for (int i=0; i<_matrix.N-1; i++)
+            _matrix[_matrix.N - 1, 0] = 0;
+            for (int i = 0; i < _limits.Count; i++)
             {
-                _matrix[_matrix.N - 1, _matrix.M - 1] +=
+                _matrix[_matrix.N - 1, 0] +=
                     _matrix[i, 0] * _function[_basis[i]];
             }
-            //Посчитали вроде
         }
 
         private Fraction step2()
         {
-            throw new NotImplementedException();
+            while (!isFindOptimum())
+            {
+                int idx_j=0, idx_i=-1;
+                Fraction max_min = int.MaxValue;
+                //находим первый из самых больших отрицательных элементов
+                for (int j=1; j<_function.Length; j++)
+                {
+                    if (_matrix[_matrix.N-1, j]<0 && _matrix[_matrix.N-1, j] < max_min)
+                    {
+                        idx_j = j;
+                        max_min = _matrix[_matrix.N - 1, j];
+                    }
+                }
+                //если нашли отрицательный столбец
+                Fraction koef = int.MaxValue ;
+                for (int i=0; i<_basis.Count; i++)
+                {
+                    if (_matrix[i,idx_j] > 0 && _matrix[i,0]/_matrix[i, idx_j]<koef)
+                    {
+                        koef = _matrix[i, 0] / _matrix[i, idx_j];
+                        idx_i = i;
+                    }
+                }
+                if (idx_i == -1)
+                    throw new NoAnswerException("Функция не ограниченно растет");
+                newSimplexTable(idx_i, idx_j);
+            }
+            while (isExistAlternative())
+            {
+
+            }
+            return _matrix[_matrix.N - 1, 0];
+        }
+
+        private void newSimplexTable(int idx_i, int idx_j)
+        {
+            //заменяем старый базис на новый
+            _basis[idx_i] = idx_j;
+            //пересчитываем остальные элементы
+            for (int i=0; i<_basis.Count; i++)
+            {
+                if (i == idx_i) continue;
+                for (int j=0; j<_function.Length; j++)
+                {
+                    _matrix[i, j] -= _matrix[idx_i, j] * _matrix[i, idx_j] / _matrix[idx_i, idx_j];
+                }
+            }
+            Fraction f = _matrix[idx_i, idx_j] + 0;
+            //пересчитываем коефициенты направляющей строки
+            for (int j = 0; j < _function.Length; j++)
+                _matrix[idx_i, j] /= f;
+            CalculateSimplexSub();
+        }
+
+        private bool isFindOptimum()
+        {
+            for (int j=1; j<_function.Length; j++)
+            {
+                if (_matrix[_matrix.N - 1, j] < 0)
+                    return false;
+            }
+            return true;
+        }
+
+        private bool isExistAlternative()
+        {
+            //TODO: Implemet0))))0
+            return false;
         }
 #endregion
     }
