@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimplexModel
 {
-    class NoAnswerException : Exception
+    public class NoAnswerException : Exception
     {
         string errTok;
         public NoAnswerException() : base() { }

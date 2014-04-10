@@ -17,6 +17,7 @@ namespace SimplexModel
         List<Limit> _limits;
         MathFunction _function;
         List<int> _basis;
+        bool _isReverse;
 #endregion 
 
 #region public methods
@@ -24,6 +25,7 @@ namespace SimplexModel
         {
             _limits = new List<Limit>();
             _basis = new List<int>();
+            _isReverse = false;
         }
 
         public Simplex(MathFunction math)
@@ -41,7 +43,10 @@ namespace SimplexModel
         {
             //Переходим к задаче максимизации
             if (_function.TargetFunction == Target.minimization)
+            {
                 _function.ChangeTarget();
+                _isReverse = true;
+            }
             //Делаем вектор (B) не отрицательным
             foreach (var x in _limits)
             {
@@ -75,7 +80,8 @@ namespace SimplexModel
             //Теперь переходим к шагу 1 и формируем 
             //Первую симплексную таблицу
             Step1();
-            return step2();
+            Fraction answer =  step2();
+            return _isReverse ? -answer : answer;
         }
 
        
