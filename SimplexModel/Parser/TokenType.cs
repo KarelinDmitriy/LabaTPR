@@ -17,6 +17,7 @@ namespace SimplexModel.Parser
         Eq,
         Comma, 
         End, 
-        SimCol
+        SimCol,
+        Number
     }
 }

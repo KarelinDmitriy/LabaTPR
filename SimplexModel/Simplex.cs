@@ -38,6 +38,11 @@ namespace SimplexModel
         {
             _limits.Add(l);
         }
+
+        public void SetFunction(MathFunction func)
+        {
+            _function = func;
+        }
         
         public Fraction Solve()
         {
