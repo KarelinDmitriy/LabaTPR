@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplexModel", "SimplexMode
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSimplex", "TestSimplex\TestSimplex.csproj", "{E2210C50-7831-4034-A87D-518C0A897384}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplexSite", "SimplexSite\SimplexSite.csproj", "{CC3F9722-50B5-4D74-B5B2-EFCB94ACE563}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{E2210C50-7831-4034-A87D-518C0A897384}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2210C50-7831-4034-A87D-518C0A897384}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2210C50-7831-4034-A87D-518C0A897384}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC3F9722-50B5-4D74-B5B2-EFCB94ACE563}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC3F9722-50B5-4D74-B5B2-EFCB94ACE563}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC3F9722-50B5-4D74-B5B2-EFCB94ACE563}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC3F9722-50B5-4D74-B5B2-EFCB94ACE563}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

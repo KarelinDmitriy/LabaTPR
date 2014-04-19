@@ -1,0 +1,24 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Ввод данных</title>
+</head>
+<body>
+    <div> 
+        Введите сюда вашу задачу (@Html.ActionLink("Помощь по вводу данных", "Help")): <br/>
+        @using (@Html.BeginForm())
+        {
+            @Html.TextArea("expr", "", 10, 40, "")
+            <br />
+            <input type="submit" value="Попробывать решить" />
+        }
+    </div>
+</body>
+</html>

@@ -73,7 +73,7 @@ namespace TestSimplex
         public void Test5()
         {
             string text =
-            @"Max f(x, y, z) = -x + z -2y;
+            @"Max f(x, y, z) = -x + z -y -y;
               3y + x + z >=4;
               x + 2y - z >=6;
               x + z <=12;";
