@@ -53,7 +53,7 @@ namespace SimplexModel.Parser
         private MathFunction FuncStep()
         {
             MathFunction fnc;
-            if (_curToken.Value != "Max" || _curToken.Value != "Min")
+            if (_curToken.Value != "Max" && _curToken.Value != "Min")
                 throw new ParseErrorException("Не верное объявление функции, ожидалось Max или Min");
             if (_curToken.Value == "Max") fnc = new MathFunction(Target.maximization);
             else fnc = new MathFunction(Target.minimization);
@@ -86,7 +86,8 @@ namespace SimplexModel.Parser
             {
                 if (!(_curToken.Type == TokenType.Sing ||
                     _curToken.Type == TokenType.Var ||
-                    _curToken.Type == TokenType.Number))
+                    _curToken.Type == TokenType.Number ||
+                    _curToken.Type == TokenType.OpBr))
                     throw new ParseErrorException("Не верное описание слагаемого");
                 int koef = 1;
                 Fraction koefVar = 1;
@@ -95,7 +96,7 @@ namespace SimplexModel.Parser
                     if (_curToken.Value == "-") koef = -1;
                     Match(_curToken.Type);
                 }
-                if (_curToken.Type == TokenType.Number)
+                if (_curToken.Type == TokenType.Number || _curToken.Type == TokenType.OpBr)
                 {
                     koefVar = Number();
                 }
@@ -196,7 +197,8 @@ namespace SimplexModel.Parser
             }
             if (needClBr && _curToken.Type == TokenType.ClBr)
                 Match(_curToken.Type);
-            else throw new ParseErrorException("Ожидалась закрывающая скобка");
+            else if (needClBr) 
+                throw new ParseErrorException("Ожидалась закрывающая скобка");
             return new Fraction(koef * numerator, denominator);
         }
 
