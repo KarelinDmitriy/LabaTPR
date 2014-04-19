@@ -95,5 +95,75 @@ namespace TestSimplex
 
             Assert.AreEqual(res, -30);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ParseErrorException))]
+        public void Test7()
+        {
+            string text =
+            @"Max f x, y, z) = -x + z -2y;
+              3y + x + z >=4;
+              x + 2y - z >=6;
+              x + z <=12;";
+            var res = new Parser(text).Parse().Solve();
+
+            Assert.AreEqual(res, -6);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ParseErrorException))]
+        public void Test8()
+        {
+            string text =
+            @"Max  (x, y, z) = -x + z -2y;
+              3y + x + z >=4;
+              x + 2y - z >=6;
+              x + z <=12;";
+            var res = new Parser(text).Parse().Solve();
+
+            Assert.AreEqual(res, -6);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ParseErrorException))]
+        public void Test9()
+        {
+            string text =
+            @"Max f (x, y, z) = -x + z -2y
+              3y + x + z >=4;
+              x + 2y - z >=6;
+              x + z <=12;";
+            var res = new Parser(text).Parse().Solve();
+
+            Assert.AreEqual(res, -6);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ParseErrorException))]
+        public void Test10()
+        {
+            string text =
+            @"Max  f (x, y, z) = -x + z -2y;
+              3y + x + z >=4;
+              x + 2y - z >=6;
+              x + a <=12;";
+            var res = new Parser(text).Parse().Solve();
+
+            Assert.AreEqual(res, -6);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ParseErrorException))]
+        public void Test11()
+        {
+            string text =
+            @"Max f (x, y, z) = -a + z -2y;
+              3y + x + z >=4;
+              x + 2y - z >=6;
+              x + z <=12;";
+            var res = new Parser(text).Parse().Solve();
+
+            Assert.AreEqual(res, -6);
+        }
     }
 }
