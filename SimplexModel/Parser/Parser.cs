@@ -72,7 +72,7 @@ namespace SimplexModel.Parser
                     throw new ParseErrorException("Переменная " + _curToken.Value + " уже объявленна");
                 _varCount++;
                 _table.Add(_curToken.Value, _varCount);
-                fnc.AddNewVariable(0, _varCount);
+                fnc.AddNewVariable(0, _varCount, _curToken.Value);
                 Match(TokenType.Var);
                 if (_curToken.Type == TokenType.Comma) Match(TokenType.Comma);
             }
@@ -148,7 +148,7 @@ namespace SimplexModel.Parser
                     throw new ParseErrorException("Переменная " + _curToken.Value + " не объявленная");
                 if (_table[_curToken.Value] == 0)
                     throw new ParseErrorException("Ключевое слово " + _curToken.Value + " не может использоваться, как переменная");
-                limit.addVar(koef * koefVar, _table[_curToken.Value]);
+                limit.addVar(koef * koefVar, _table[_curToken.Value], _curToken.Value);
                 Match(_curToken.Type);
             } while (_curToken.Type != TokenType.Eq);
             if (_curToken.Value == "=")

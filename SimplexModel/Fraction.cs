@@ -119,6 +119,8 @@ namespace SimplexModel
         }
         public override string ToString()
         {
+            if (_n > int.MaxValue) return String.Format("M");
+            if (_n < int.MinValue) return String.Format("-M");
             if (_d == 1) return String.Format(_n.ToString());
             return String.Format("{0}/{1}", _n, _d);
         }

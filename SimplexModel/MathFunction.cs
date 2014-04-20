@@ -10,6 +10,7 @@ namespace SimplexModel
     {
 #region variable
         List<Fraction> _factors;
+        List<String> _names;
         Target _target;
 #endregion 
 
@@ -18,6 +19,7 @@ namespace SimplexModel
         {
             _target = a;
             _factors = new List<Fraction>();
+            _names = new List<string>();
         }
 
         public void AddNewVariable(Fraction factor)
@@ -28,10 +30,27 @@ namespace SimplexModel
         {
             if (number >= _factors.Count)
             {
-                while (number>=_factors.Count)
+                while (number >= _factors.Count)
+                {
                     _factors.Add(new Fraction());
+                    _names.Add("_temp" + (_factors.Count - 1).ToString());
+                }
             }
             _factors[number] +=factor;
+        }
+
+        public void AddNewVariable(Fraction factor, int number, string name)
+        {
+            if (number >= _factors.Count)
+            {
+                while (number >= _factors.Count)
+                {
+                    _factors.Add(new Fraction());
+                    _names.Add("_temp" + (_factors.Count - 1).ToString());
+                }
+            }
+            _names[number] = name;
+            _factors[number] += factor;
         }
 
         public void ChangeTarget()
@@ -70,6 +89,11 @@ namespace SimplexModel
             {
                 return _factors.Count;
             }
+        }
+
+        public string getName(int idx)
+        {
+            return _names[idx];
         }
     }
 #endregion

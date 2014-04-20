@@ -10,6 +10,7 @@ namespace SimplexModel
     {
 #region variable
         List<Fraction> _vars;
+        List<String> _names;
         Sing _sing;
         Fraction _leftSide;
 #endregion 
@@ -20,6 +21,7 @@ namespace SimplexModel
             _vars = new List<Fraction>();
             _sing = Sing.unknown;
             _leftSide = new Fraction();
+            _names = new List<string>();
         }
 
         public void addVar(Fraction a, int number)
@@ -27,8 +29,27 @@ namespace SimplexModel
             if (number>=_vars.Count)
             {
                 while (number >= _vars.Count)
+                {
                     _vars.Add(new Fraction());
+                    _names.Add("_temp" + (_vars.Count - 1).ToString());
+                }
             }
+            _vars[number] += a;
+        }
+
+        //Переиминовать переменную нелься, поэтмоу если она уже введена
+        //то _names[number] не измениться
+        public void addVar(Fraction a, int number, string name)
+        {
+            if (number >= _vars.Count)
+            {
+                while (number >= _vars.Count)
+                {
+                    _vars.Add(new Fraction());
+                    _names.Add("_temp" + (_vars.Count - 1).ToString());
+                }
+            }
+            _names[number] = name;
             _vars[number] += a;
         }
 
@@ -84,6 +105,11 @@ namespace SimplexModel
             for (int i = _vars.Count - 1; i >= 0; i--)
                 if (_vars[i] != 0) return i;
             return -1;
+        }
+
+        public string getName(int idx)
+        {
+            return _names[idx];
         }
 #endregion
 

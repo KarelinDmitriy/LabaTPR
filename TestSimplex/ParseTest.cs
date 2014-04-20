@@ -165,5 +165,19 @@ namespace TestSimplex
 
             Assert.AreEqual(res, -6);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(NoAnswerException))]
+        public void Test12()
+        {
+            string text =
+            @"Min f (y1, y2, y3) = y1 - 2y2+3y3;
+              3y1 - 5y2 - 7y3 = 1;
+              -4y1 - 6y2 + 8y3 >=2;";
+
+            var res = new Parser(text).Parse().Solve();
+
+            Assert.AreEqual(res, 0);
+        }
     }
 }
