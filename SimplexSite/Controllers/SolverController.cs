@@ -20,14 +20,26 @@ namespace SimplexSite.Controllers
 
         public ActionResult EnterData()
         {
+            ViewBag.Error = TempData["Error"];
+            ViewData["Text"] = TempData["Text"];
             return View();
         }
 
         [HttpPost]
         public ActionResult Solve(string text)
-        {
-            var tx = new Parser(text).Parse();
-            tx.Solve();
+        { 
+            Simplex tx = null;
+            try
+            {
+                tx = new Parser(text).Parse();
+                tx.Solve();
+            }
+            catch (ParseErrorException e)
+            {
+                TempData["Error"] = e.Message.ToString();
+                TempData["Text"] = text;
+                return RedirectToAction("EnterData");
+            }
             return View(tx);
         }
         

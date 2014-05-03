@@ -95,8 +95,29 @@ namespace SimplexModel
         public string getName(int idx)
         {
             return _names[idx];
+        } 
+        
+        public string toHTMLString()
+        {
+            StringBuilder html = new StringBuilder();
+            html.Append("<p> f(");
+            for (int i=1; i<_names.Count; i++)
+            {
+                if (i == 1) html.Append(_names[i]);
+                else html.Append("," + _names[i]);
+            }
+            html.Append(") = ");
+            for (int i=1; i<_names.Count; i++)
+            {
+                if (i == 1) html.Append(_factors[i].toHTMLString() + _names[i]);
+                else html.Append(" + " + _factors[i].toHTMLString() + _names[i]);
+            }
+            html.Append("</p>");
+            return html.ToString();
         }
     }
+
+   
 #endregion
 
 #region private methods

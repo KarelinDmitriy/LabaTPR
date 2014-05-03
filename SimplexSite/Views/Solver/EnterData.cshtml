@@ -12,10 +12,11 @@
 </head>
 <body>
     <div> 
+        <p>@ViewBag.Error</p>
         Введите сюда вашу задачу (@Html.ActionLink("Помощь по вводу данных", "Help")): <br/>
         @using (@Html.BeginForm("Solve", "Solver", FormMethod.Post))
         {
-            @Html.TextArea("text", "", 10, 40, new { @class = "text" })
+            @Html.TextArea("text", ViewData["Text"] as string, 10, 40, new { @class = "text"})
             <br />
             <input type="submit" value="Решить" />
         }

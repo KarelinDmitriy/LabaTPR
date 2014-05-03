@@ -111,6 +111,32 @@ namespace SimplexModel
         {
             return _names[idx];
         }
+
+        public string toHTMLString()
+        {
+            StringBuilder html = new StringBuilder();
+            html.Append("<p>");
+            for (int i = 1; i < _names.Count; i++)
+            {
+                if (i == 1) html.Append(_vars[i].toHTMLString() + _names[i]);
+                else html.Append(" + " + _vars[i].toHTMLString() + _names[i]);
+            }
+            switch (_sing)
+            {
+                case SimplexModel.Sing.equality:
+                    html.Append(" = ");
+                    break;
+                case SimplexModel.Sing.lessEquality:
+                    html.Append(" <= ");
+                    break;
+                case SimplexModel.Sing.moreEquality:
+                    html.Append(" >= ");
+                    break;
+            }
+            html.Append(LeftSide.toHTMLString());
+            html.Append("</p>");
+            return html.ToString();
+        }
 #endregion
 
 #region private methods

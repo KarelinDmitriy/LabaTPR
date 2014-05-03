@@ -50,9 +50,15 @@ namespace SimplexModel
 
         public Fraction Solve()
         {
+            StringBuilder html = new StringBuilder();
+            html.Append("<p>Для нахождения оптимума была заданна следующая функция с данными ограничениям:</p>\n");
+            html.Append(_function.toHTMLString());
+            foreach (var x in _limits)
+                html.Append( x.toHTMLString());
             //Переходим к задаче максимизации
             if (_function.TargetFunction == Target.minimization)
             {
+                html.Append("<p>Т.к. функцию нужно минимизировать, перейдем к задаче максимизации и учтем, </br> что значение функции в таблице будет с противоположным знаком");
                 _function.ChangeTarget();
                 _isReverse = true;
             }
@@ -86,13 +92,27 @@ namespace SimplexModel
             {
                 x.addVar(0, _function.Length - 1);
             }
+            html.Append("<p>Введем балансовые и искуственые перменные. Получим следующую фукнцию</p>");
+            html.Append(_function.toHTMLString());
+            foreach (var x in _limits)
+                html.Append(x.toHTMLString());
+            html.Append("<p>Составим первую симплексную таблицу и перейдем к решению</p>\n");
             //Теперь переходим к шагу 1 и формируем 
             //Первую симплексную таблицу
             Step1();
-            Fraction answer = step2();
-            if (answer > int.MaxValue || answer < int.MinValue)
-                throw new NoAnswerException("В оптимальном решении присутствует искуственная переменная. Решения нет");
-            return _isReverse ? -answer : answer;
+            try
+            {
+                _solve += html.ToString();
+                Fraction answer = step2();
+                if (answer > int.MaxValue || answer < int.MinValue)
+                    _solve += "<p> Поспольку вывести искустенную переменную из басиза не удалось, решений нет</p>\n";
+                return _isReverse ? -answer : answer;
+            }
+            catch (NoAnswerException e)
+            {
+                _solve += "<p>" + e.Message + "</p>\n";
+            }
+            return 0;
         }
 
         public string SolveAsHTML
@@ -176,7 +196,11 @@ namespace SimplexModel
                     }
                 }
                 if (idx_i == -1)
-                    throw new NoAnswerException("Функция не ограниченно растет");
+                {
+                    _solve = html.ToString();
+                    throw new NoAnswerException(
+                        "В столбце с отрицательной сиплексной разности все значения меньше или равны нулю. <br/>Функция не ограниченно растет");
+                }
                 html.Append("<p>Найдем направляющие строку и столбец</p>");
                 html.Append(TableAsHTMLString(idx_i, idx_j) + "<br/>");
                 newSimplexTable(idx_i, idx_j);
@@ -187,13 +211,12 @@ namespace SimplexModel
             _results.Add(getCurVector());
             if (isExistAlternative())
             {
-                html.Append("<p>Обнаруженны альтернативы</p>\n");
+                html.Append("<p>Обноруженное решение не единственное. (Список найденых альтернатив смотрите ниже)</p>\n");
                 FindAlternative();
-                html.Append("<p>Больше альтернатив не обнаруженно</p>\n");
             }
             var a = _matrix[_matrix.N - 1, 0];
             html.Append("<p>Оптимум находиться в точке " + (_isReverse ? (-a).toHTMLString() : a.toHTMLString()) + "</p>");
-            _solve = html.ToString();
+            _solve += html.ToString();
             return _matrix[_matrix.N - 1, 0];
         }
 
