@@ -25,6 +25,7 @@ namespace SimplexModel
         public void AddNewVariable(Fraction factor)
         {
             _factors.Add(factor);
+            _names.Add("_temp" + (_factors.Count - 1).ToString());
         }
         public void AddNewVariable(Fraction factor, int number)
         {

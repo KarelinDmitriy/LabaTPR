@@ -179,5 +179,20 @@ namespace TestSimplex
 
             Assert.AreEqual(res, 0);
         }
+
+        [TestMethod]
+      //  [ExpectedException(typeof(NoAnswerException))]
+        public void Test13()
+        {
+            string text =
+            @"Min f(x1, x2, x3) = 5x1 + 7x2 +13x3;
+                2x1+x2+4x3>=22;
+                x1 + x2 + x3 = 9;
+                x1 + 2x2+2x3 <=18;";
+
+            var res = new Parser(text).Parse().Solve();
+
+            Assert.AreEqual(res, 61);
+        }
     }
 }

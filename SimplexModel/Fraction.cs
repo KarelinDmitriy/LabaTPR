@@ -142,6 +142,14 @@ namespace SimplexModel
             //Warning, Danger!!!!!!!!!!!!!!!!!!!!!!!!!
             return _n.GetHashCode() + _d.GetHashCode();
         }
+
+        public string toHTMLString()
+        {
+            if (_n > int.MaxValue) return String.Format("<mi>M</mi>");
+            if (_n < int.MinValue) return String.Format("<mi>-M</mi>");
+            if (_d == 1) return String.Format("<mi>{0}</mi>", _n);
+            return String.Format("<mfrac><mi>{0}</mi><mi>{1}</mi></mfrac>", _n, _d);
+        }
         #endregion
 
         #region private methods

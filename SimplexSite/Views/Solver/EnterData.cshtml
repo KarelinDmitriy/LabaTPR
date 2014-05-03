@@ -13,11 +13,11 @@
 <body>
     <div> 
         Введите сюда вашу задачу (@Html.ActionLink("Помощь по вводу данных", "Help")): <br/>
-        @using (@Html.BeginForm())
+        @using (@Html.BeginForm("Solve", "Solver", FormMethod.Post))
         {
-            @Html.TextArea("expr", "", 10, 40, "")
+            @Html.TextArea("text", "", 10, 40, new { @class = "text" })
             <br />
-            @Html.
+            <input type="submit" value="Решить" />
         }
     </div>
 </body>

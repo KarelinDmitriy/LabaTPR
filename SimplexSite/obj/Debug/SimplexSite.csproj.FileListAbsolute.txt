@@ -24,3 +24,5 @@ C:\Users\Bad Wolf\Documents\Visual Studio 2013\Projects\LabaTPR\SimplexSite\bin\
 C:\Users\Bad Wolf\Documents\Visual Studio 2013\Projects\LabaTPR\SimplexSite\obj\Debug\SimplexSite.dll
 C:\Users\Bad Wolf\Documents\Visual Studio 2013\Projects\LabaTPR\SimplexSite\obj\Debug\SimplexSite.pdb
 C:\Users\Bad Wolf\Documents\Visual Studio 2013\Projects\LabaTPR\SimplexSite\obj\Debug\SimplexSite.csprojResolveAssemblyReference.cache
+C:\Users\Bad Wolf\Documents\Visual Studio 2013\Projects\LabaTPR\SimplexSite\bin\SimplexModel.dll
+C:\Users\Bad Wolf\Documents\Visual Studio 2013\Projects\LabaTPR\SimplexSite\bin\SimplexModel.pdb
