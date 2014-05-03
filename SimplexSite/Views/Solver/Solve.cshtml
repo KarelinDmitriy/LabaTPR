@@ -1,0 +1,29 @@
+﻿@using SimplexModel
+@model Simplex
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=default"></script>
+    @Styles.Render("~/Content/TableStyle.css")
+        <title>Solve</title>
+    </head>
+    <body>
+        <div>
+            <p>@Html.Raw(@Model.SolveAsHTML)</p>
+            <p>Найденые вектора решений</p>
+            @foreach (var x in Model.Solves)
+            {
+                @Html.Raw(@x.ToHTMLString())
+            }
+        </div>
+    </body>
+    </html>

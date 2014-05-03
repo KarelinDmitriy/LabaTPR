@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace SimplexModel
 {
-    class MathFunction
+    public class MathFunction
     {
 #region variable
         List<Fraction> _factors;
+        List<String> _names;
         Target _target;
 #endregion 
 
@@ -18,16 +19,39 @@ namespace SimplexModel
         {
             _target = a;
             _factors = new List<Fraction>();
+            _names = new List<string>();
         }
 
-        public void  AddNewVariable(Fraction factor, int number)
+        public void AddNewVariable(Fraction factor)
+        {
+            _factors.Add(factor);
+            _names.Add("_temp" + (_factors.Count - 1).ToString());
+        }
+        public void AddNewVariable(Fraction factor, int number)
         {
             if (number >= _factors.Count)
             {
-                while (number>=_factors.Count)
+                while (number >= _factors.Count)
+                {
                     _factors.Add(new Fraction());
+                    _names.Add("_temp" + (_factors.Count - 1).ToString());
+                }
             }
             _factors[number] +=factor;
+        }
+
+        public void AddNewVariable(Fraction factor, int number, string name)
+        {
+            if (number >= _factors.Count)
+            {
+                while (number >= _factors.Count)
+                {
+                    _factors.Add(new Fraction());
+                    _names.Add("_temp" + (_factors.Count - 1).ToString());
+                }
+            }
+            _names[number] = name;
+            _factors[number] += factor;
         }
 
         public void ChangeTarget()
@@ -59,7 +83,41 @@ namespace SimplexModel
                 return _factors[i];
             }
         }
+
+        public int Length
+        {
+            get
+            {
+                return _factors.Count;
+            }
+        }
+
+        public string getName(int idx)
+        {
+            return _names[idx];
+        } 
+        
+        public string toHTMLString()
+        {
+            StringBuilder html = new StringBuilder();
+            html.Append("<p> f(");
+            for (int i=1; i<_names.Count; i++)
+            {
+                if (i == 1) html.Append(_names[i]);
+                else html.Append("," + _names[i]);
+            }
+            html.Append(") = ");
+            for (int i=1; i<_names.Count; i++)
+            {
+                if (i == 1) html.Append(_factors[i].toHTMLString() + _names[i]);
+                else html.Append(" + " + _factors[i].toHTMLString() + _names[i]);
+            }
+            html.Append("</p>");
+            return html.ToString();
+        }
     }
+
+   
 #endregion
 
 #region private methods

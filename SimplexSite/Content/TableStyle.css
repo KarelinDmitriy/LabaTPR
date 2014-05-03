@@ -1,0 +1,22 @@
+﻿body {
+}
+
+table 
+{
+    text-align : center;
+}
+
+.Main_Elem
+{
+    background-color: green;
+}
+
+.Main_Row
+{
+    background-color: #d52828;
+}
+
+.Main_Col
+{
+    background-color: darkcyan;
+}

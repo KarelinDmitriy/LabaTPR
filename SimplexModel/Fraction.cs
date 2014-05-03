@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace SimplexModel
 {
-    class Fraction
+    public class Fraction
     {
         #region variable
-        int _n;
-        int _d;
+        long  _n;
+        long  _d;
         #endregion
 
         #region public methods
@@ -20,7 +20,7 @@ namespace SimplexModel
             _d= 1;
         }
 
-        public Fraction(int n, int d)
+        public Fraction(long  n, long  d)
         {
             _n = n;
             if (d == 0)
@@ -31,36 +31,36 @@ namespace SimplexModel
 
         public static Fraction operator +(Fraction a, Fraction b)
         {
-            return new Fraction(a._d * b._n + b._d * a._n, a._n * b._n);
+            return new Fraction(a._d * b._n + b._d * a._n, a._d* b._d);
         }
 
         public static Fraction operator -(Fraction a, Fraction b)
         {
-            return new Fraction(a._d * b._n - b._d * a._n, a._n * b._n);
+            return new Fraction(a._n * b._d - b._n * a._d, a._d * b._d);
         }
 
         public static Fraction operator *(Fraction a, Fraction b)
         {
-            return new Fraction(a._d * b._d, a._n * b._n);
+            return new Fraction(a._n * b._n, a._d * b._d);
         }
 
         public static Fraction operator /(Fraction a, Fraction b)
         {
-            return new Fraction(a._d * b._n, a._n * b._d);
+            return new Fraction(a._n * b._d, a._d * b._n);
         }
 
         public static Fraction operator -(Fraction a)
         {
-            return new Fraction(-a._d, a._n);
+            return new Fraction(-a._n, a._d);
         }
 
         public static bool operator <(Fraction a, Fraction b)
         {
-            a._d *= b._n;
-            b._d *= a._n;
-            a._n = b._n *= a._n;
+            a._n *= b._d;
+            b._n *= a._d;
+            a._d = b._d *= a._d;
             bool ret;
-            if (a._d < b._d) ret = true;
+            if (a._n < b._n) ret = true;
             else ret = false;
             a.cut();
             b.cut();
@@ -69,11 +69,11 @@ namespace SimplexModel
 
         public static bool operator >(Fraction a, Fraction b)
         {
-            a._d *= b._n;
-            b._d *= a._n;
-            a._n = b._n *= a._n;
+            a._n *= b._d;
+            b._n *= a._d;
+            a._d = b._d *= a._d;
             bool ret;
-            if (a._d > b._d) ret = true;
+            if (a._n > b._n) ret = true;
             else ret = false;
             a.cut();
             b.cut();
@@ -82,11 +82,11 @@ namespace SimplexModel
 
         public static bool operator ==(Fraction a, Fraction b)
         {
-            a._d *= b._n;
-            b._d *= a._n;
-            a._n = b._n *= a._n;
+            a._n *= b._d;
+            b._n *= a._d;
+            a._d = b._d *= a._d;
             bool ret;
-            if (a._d == b._d) ret = true;
+            if (a._n == b._n) ret = true;
             else ret = false;
             a.cut();
             b.cut();
@@ -108,8 +108,19 @@ namespace SimplexModel
             return !(a > b);
         }
 
+        public static implicit operator Fraction(int value)
+        {
+            return new Fraction(value, 1);
+        }
+        
+        public static implicit operator Fraction(long value)
+        {
+            return new Fraction(value, 1L);
+        }
         public override string ToString()
         {
+            if (_n > int.MaxValue) return String.Format("M");
+            if (_n < int.MinValue) return String.Format("-M");
             if (_d == 1) return String.Format(_n.ToString());
             return String.Format("{0}/{1}", _n, _d);
         }
@@ -131,12 +142,26 @@ namespace SimplexModel
             //Warning, Danger!!!!!!!!!!!!!!!!!!!!!!!!!
             return _n.GetHashCode() + _d.GetHashCode();
         }
+
+        public string toHTMLString()
+        {
+            if (_n > int.MaxValue) return String.Format("<mi>M</mi>");
+            if (_n < int.MinValue) return String.Format("<mi>-M</mi>");
+            if (_d == 1) return String.Format("<mi>{0}</mi>", _n);
+            return String.Format("<mfrac><mi>{0}</mi><mi>{1}</mi></mfrac>", _n, _d);
+        }
         #endregion
 
         #region private methods
         void cut()
         {
-            int a = gcd(Math.Abs(_n), Math.Abs(_d));
+            long a = gcd(Math.Abs(_n), Math.Abs(_d));
+            if (a == 0)
+            {
+                _n = 0;
+                _d = 1;
+                return;
+            }
             _n /= a;
             _d /= a;
             if (_d < 0)
@@ -146,7 +171,7 @@ namespace SimplexModel
             }
         }
 
-        int gcd(int a, int b)
+        long  gcd(long  a, long b)
         {
             return (b != 0) ? gcd(b, a % b) : a;
         }

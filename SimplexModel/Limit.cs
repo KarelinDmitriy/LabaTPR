@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace SimplexModel
 {
-    class Limit
+    public class Limit
     {
 #region variable
         List<Fraction> _vars;
+        List<String> _names;
         Sing _sing;
         Fraction _leftSide;
 #endregion 
@@ -20,6 +21,7 @@ namespace SimplexModel
             _vars = new List<Fraction>();
             _sing = Sing.unknown;
             _leftSide = new Fraction();
+            _names = new List<string>();
         }
 
         public void addVar(Fraction a, int number)
@@ -27,8 +29,27 @@ namespace SimplexModel
             if (number>=_vars.Count)
             {
                 while (number >= _vars.Count)
+                {
                     _vars.Add(new Fraction());
+                    _names.Add("_temp" + (_vars.Count - 1).ToString());
+                }
             }
+            _vars[number] += a;
+        }
+
+        //Переиминовать переменную нелься, поэтмоу если она уже введена
+        //то _names[number] не измениться
+        public void addVar(Fraction a, int number, string name)
+        {
+            if (number >= _vars.Count)
+            {
+                while (number >= _vars.Count)
+                {
+                    _vars.Add(new Fraction());
+                    _names.Add("_temp" + (_vars.Count - 1).ToString());
+                }
+            }
+            _names[number] = name;
             _vars[number] += a;
         }
 
@@ -61,6 +82,60 @@ namespace SimplexModel
             {
                 return _vars[i];
             }
+        }
+
+        public Fraction LeftSide
+        {
+            get
+            {
+                return _leftSide;
+            }
+        }
+
+        public Sing Sing
+        {
+            get
+            {
+                return _sing;
+            }
+        }
+
+        public int LastVar()
+        {
+            for (int i = _vars.Count - 1; i >= 0; i--)
+                if (_vars[i] != 0) return i;
+            return -1;
+        }
+
+        public string getName(int idx)
+        {
+            return _names[idx];
+        }
+
+        public string toHTMLString()
+        {
+            StringBuilder html = new StringBuilder();
+            html.Append("<p>");
+            for (int i = 1; i < _names.Count; i++)
+            {
+                if (i == 1) html.Append(_vars[i].toHTMLString() + _names[i]);
+                else html.Append(" + " + _vars[i].toHTMLString() + _names[i]);
+            }
+            switch (_sing)
+            {
+                case SimplexModel.Sing.equality:
+                    html.Append(" = ");
+                    break;
+                case SimplexModel.Sing.lessEquality:
+                    html.Append(" <= ");
+                    break;
+                case SimplexModel.Sing.moreEquality:
+                    html.Append(" >= ");
+                    break;
+            }
+            html.Append(LeftSide.toHTMLString());
+            html.Append("</p>");
+            return html.ToString();
         }
 #endregion
 
