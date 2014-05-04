@@ -11,8 +11,9 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=default"></script>
+  <!--  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=default"></script> 
+  -->
     @Styles.Render("~/Content/TableStyle.css")
         <title>Solve</title>
     </head>
@@ -21,6 +22,11 @@
             <p>@Html.Raw(@Model.SolveAsHTML)</p>
             <p>Найденые вектора решений</p>
             @foreach (var x in Model.Solves)
+            {
+                @Html.Raw(@x.ToHTMLString())
+            }
+            <p>Найденные решения двойственных задач (1-ое решение соответствует 1-ому найденному вектору решений и т.д)</p>
+            @foreach (var x in Model.DualProblem)
             {
                 @Html.Raw(@x.ToHTMLString())
             }

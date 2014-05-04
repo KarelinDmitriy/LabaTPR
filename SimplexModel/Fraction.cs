@@ -119,10 +119,11 @@ namespace SimplexModel
         }
         public override string ToString()
         {
-            if (_n > int.MaxValue) return String.Format("M");
-            if (_n < int.MinValue) return String.Format("-M");
-            if (_d == 1) return String.Format(_n.ToString());
-            return String.Format("{0}/{1}", _n, _d);
+            //if (_n > int.MaxValue) return String.Format("M");
+            //if (_n < int.MinValue) return String.Format("-M");
+            //if (_d == 1) return String.Format(_n.ToString());
+            //return String.Format("{0}/{1}", _n, _d);
+            return toHTMLString();
         }
 
         public override bool Equals(object obj)
@@ -145,10 +146,24 @@ namespace SimplexModel
 
         public string toHTMLString()
         {
-            if (_n > int.MaxValue) return String.Format("<mi>M</mi>");
-            if (_n < int.MinValue) return String.Format("<mi>-M</mi>");
-            if (_d == 1) return String.Format("<mi>{0}</mi>", _n);
-            return String.Format("<mfrac><mi>{0}</mi><mi>{1}</mi></mfrac>", _n, _d);
+            if (_n >= int.MinValue * (-1L))
+            {
+                long c = _n / (-1L * int.MinValue);
+                if (_d ==1)
+                    return String.Format("{0}M ", c);
+                else
+                    return String.Format("{0}M/{1}", c, _d);
+            }
+            if (_n <= int.MinValue)
+            {
+                long c = _n / Int32.MinValue;
+                if (_d ==1)
+                    return String.Format("-{0}M", c);
+                else
+                    return String.Format("-{0}M /{1}", c, _d);
+            }
+            if (_d == 1) return String.Format("{0}", _n);
+            return String.Format("{0}/{1}", _n, _d);
         }
         #endregion
 

@@ -11,13 +11,14 @@ namespace SimplexModel
     public class Simplex
     {
         #region variable
-        const long MAX = -int.MaxValue * 2L;
+        const long MAX = int.MinValue * 1L;
 
         Matrix _matrix;
         List<Limit> _limits;
         MathFunction _function;
         List<int> _basis;
         List<Vector> _results;
+        List<Vector> _dual_problem;
         bool _isReverse;
         string _solve;
         #endregion
@@ -30,6 +31,7 @@ namespace SimplexModel
             _isReverse = false;
             _solve = "";
             _results = new List<Vector>();
+            _dual_problem = new List<Vector>();
         }
 
         public Simplex(MathFunction math)
@@ -99,10 +101,11 @@ namespace SimplexModel
             html.Append("<p>Составим первую симплексную таблицу и перейдем к решению</p>\n");
             //Теперь переходим к шагу 1 и формируем 
             //Первую симплексную таблицу
+            _solve += html.ToString();
             Step1();
             try
             {
-                _solve += html.ToString();
+                
                 Fraction answer = step2();
                 if (answer > int.MaxValue || answer < int.MinValue)
                     _solve += "<p> Поспольку вывести искустенную переменную из басиза не удалось, решений нет</p>\n";
@@ -123,6 +126,11 @@ namespace SimplexModel
         public List<Vector> Solves
         {
             get { return _results; }
+        }
+
+        public List<Vector> DualProblem
+        {
+            get { return _dual_problem; }
         }
 
         #endregion
@@ -197,7 +205,7 @@ namespace SimplexModel
                 }
                 if (idx_i == -1)
                 {
-                    _solve = html.ToString();
+                    _solve += html.ToString();
                     throw new NoAnswerException(
                         "В столбце с отрицательной сиплексной разности все значения меньше или равны нулю. <br/>Функция не ограниченно растет");
                 }
@@ -209,6 +217,7 @@ namespace SimplexModel
             }
             html.Append("<p>Так как больше нет столбцеов с отрицательно симпексной разностью, решение оптимально</p>\n");
             _results.Add(getCurVector());
+            addDualProblem();
             if (isExistAlternative())
             {
                 html.Append("<p>Обноруженное решение не единственное. (Список найденых альтернатив смотрите ниже)</p>\n");
@@ -291,6 +300,7 @@ namespace SimplexModel
                     }
                     if (isFindSolve) continue;
                     _results.Add(v);
+                    addDualProblem();
                     FindAlternative(); //ищем альтернативы с этой таблицей
                 }
             }
@@ -454,6 +464,33 @@ namespace SimplexModel
             //заполнили
             html.Append("</table>\n");
             return html.ToString();
+        }
+
+        private void addDualProblem()
+        {
+            Vector v = new Vector();
+            int count = 1;
+            //сначала переберем все балансовые переменные
+            for (int i=1; i<_function.Length; i++)
+            {
+                string name = _function.getName(i);
+                if (name[0] == '_' && _function[i] == 0) //балансовая 
+                {
+                    v.addVar(_matrix[_matrix.N - 1, i], "_y" + count.ToString());
+                    count++;
+                }
+            }
+            if (count < _limits.Count) //если не хватает переменных, то хапаем с начала
+            {
+                int i = 1;
+                while (count < _limits.Count)
+                {
+                    v.addVar(_matrix[_matrix.N - 1, i], "_y" + count.ToString());
+                    i++;
+                    count++;
+                }
+            }
+            _dual_problem.Add(v);
         }
         #endregion
     }

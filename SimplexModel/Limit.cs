@@ -31,7 +31,7 @@ namespace SimplexModel
                 while (number >= _vars.Count)
                 {
                     _vars.Add(new Fraction());
-                    _names.Add("_temp" + (_vars.Count - 1).ToString());
+                    _names.Add("_x" + (_vars.Count - 1).ToString());
                 }
             }
             _vars[number] += a;
@@ -46,7 +46,7 @@ namespace SimplexModel
                 while (number >= _vars.Count)
                 {
                     _vars.Add(new Fraction());
-                    _names.Add("_temp" + (_vars.Count - 1).ToString());
+                    _names.Add("_x" + (_vars.Count - 1).ToString());
                 }
             }
             _names[number] = name;
